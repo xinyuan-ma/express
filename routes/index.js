@@ -8,7 +8,9 @@ router.get('/', function(req, res, next) {
   res.cookie('cookie', 'yuan', {signed: true})
   res.render('index', { title: 'yuan' });
   // res.send('Hello World!');
+  res.sendfile(__dirname + '/public/dist/index.html');
 });
+
 router.post('/', function(req, res, next) {
   console.log(req.body, 11)
   // res.render('index', { title: 'xinyuan' });
@@ -20,7 +22,6 @@ router.post('/', function(req, res, next) {
       result: 'post返回'
     });
   })
-
 });
 router.get('/http', function (req, res, next) {
   http.createServer(function (req, res) {

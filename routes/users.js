@@ -3,8 +3,8 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  console.log(req.cookies.cookie, 222) // 不加密的话，使用req.cookies获取cookie
-  console.log(req.signedCookies.cookie, 222) // 加密的话，使用signedCookies获取cookie
+  // console.log(req.cookies.cookie, 222) // 不加密的话，使用req.cookies获取cookie
+  // console.log(req.signedCookies.cookie, 222) // 加密的话，使用signedCookies获取cookie
   res.send('respond');
 });
 router.get('/params/:userId/book/:password', function(req, res, next) {
