@@ -13,25 +13,13 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   console.log(req.body, 11)
-  // res.render('index', { title: 'xinyuan' });
-  // res.send('Hello World123!');
-  tank.find({},{'_id': 0}).then(data => {
-    console.log(data, 123)
+  tank.find({},{'_id': 0, '__v': 0}).then(data => {
+    console.log(data, 'data是数据库返回的内容')
     return res.json({
       code: data,
       result: 'post返回'
     });
   })
 });
-router.get('/http', function (req, res, next) {
-  http.createServer(function (req, res) {
-    res.writeHead(200, {
-      "Content-Type": 'text/html;charset=UTF-8'
-    })
-    // 往页面打印值
-    res.write('<p>这是node</p>')
-    res.end()
-  })
-})
 
 module.exports = router;

@@ -6,6 +6,7 @@ var logger = require('morgan');
 var history = require('connect-history-api-fallback');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var vueRouter = require('./routes/vue');
 
 var app = express();
 app.all('/', function (req, res, next) {
@@ -20,13 +21,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser('secret')); // 对cookie进行加密
 app.use(cookieParser()); // 对cookie进行加密
-app.use('/users', usersRouter);
 
-app.use(history());
-app.use(express.static(path.join(__dirname, 'public/dist')));
+// 设置静态文件地址
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/index', express.static(path.join(__dirname, 'public/dist/index.html')));
-app.use('/', indexRouter);
+app.use(express.static(path.join(__dirname, 'public/dist'))); // dist文件是vue项目打包出来的文件
+app.use(express.static(path.join(__dirname, 'public/vue')));
+
+// get请求的路由
+app.use('/user', usersRouter);
+
+// 设置vue项目静态web服务器hash模式（路径中有#）
+app.use('/vue', vueRouter);
+
+// 设置vue项目静态web服务器history模式
+app.use(history()); // vue项目为history模式，配置静态服务器
+
+app.use('/', indexRouter); // 这个要放到最后面，否则node不能使用get请求，因为所有的get请求都会走到这里
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

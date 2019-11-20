@@ -19,9 +19,12 @@ var schema = new mongoose.Schema({
 	yuan: {
 		type: Boolean,
 		default: true
+	},
+	content: {
+		type: String
 	}
 })
 
-exports.tank = mongoose.model('TankTest', schema);
+exports.tank = mongoose.model('TankTests', schema);
 
 exports.mongoose = mongoose;

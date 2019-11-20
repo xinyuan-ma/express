@@ -2,6 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 /* GET users listing. */
+router.get('/http', function (req, res, next) {
+    res.writeHead(200, {
+      "Content-Type": 'text/html;charset=UTF-8'
+    })
+    // 往页面打印值
+    res.write('<p>这是node</p>')
+    res.end()
+})
 router.get('/', function(req, res, next) {
   // console.log(req.cookies.cookie, 222) // 不加密的话，使用req.cookies获取cookie
   // console.log(req.signedCookies.cookie, 222) // 加密的话，使用signedCookies获取cookie
