@@ -1,20 +1,39 @@
 var express = require('express');
 var router = express.Router();
 
+router.get('/ejs', function (req, res, next) {
+    res.render('index', {
+        title: 'ejs练习',
+        user: {name: 'yuan'},
+        arrs: [1, 2, 3],
+        obj: {
+            name: 'ejs',
+            afge: 'kk'
+        }
+    })
+})
+router.get('/jade', function(req, res, next) {
+  // console.log(req.cookies.cookie, 222) // 不加密的话，使用req.cookies获取cookie
+  // console.log(req.signedCookies.cookie, 222) // 加密的话，使用signedCookies获取cookie
+  // res.send('respond');
+    res.render("testJade", {
+        title: 'jade练习',
+        arrs: [1, 2, 3],
+        obj: {
+            name: 'jade',
+            afge: 'kk'
+        }
+    })
+});
 /* GET users listing. */
 router.get('/http', function (req, res, next) {
     res.writeHead(200, {
-      "Content-Type": 'text/html;charset=UTF-8'
+        "Content-Type": 'text/html;charset=UTF-8'
     })
     // 往页面打印值
     res.write('<p>这是node</p>')
     res.end()
 })
-router.get('/', function(req, res, next) {
-  // console.log(req.cookies.cookie, 222) // 不加密的话，使用req.cookies获取cookie
-  // console.log(req.signedCookies.cookie, 222) // 加密的话，使用signedCookies获取cookie
-  res.send('respond');
-});
 router.get('/params/:userId/book/:password', function(req, res, next) {
   console.log(req.params)
   next()

@@ -15,7 +15,8 @@ app.all('/', function (req, res, next) {
 })
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('view engine', 'jade'); // 使用jade模板引擎
+app.set('view engine', 'ejs'); // 使用ejs模板引擎
 app.use(logger('dev'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

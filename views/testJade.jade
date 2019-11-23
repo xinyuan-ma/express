@@ -1,0 +1,18 @@
+html(lang="en")
+head
+    title jade模板引擎
+    body
+        h1 jade真强啊
+        p #{title}
+        p jade 渲染数组
+        ul
+        each item in arrs
+            li= item
+        p jade 渲染对象
+            each val,key in obj
+                li #{val}:#{key}
+
+style.
+    p {
+        color: #00a4fb;
+    }
