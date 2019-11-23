@@ -8,10 +8,12 @@ router.get('/ejs', function (req, res, next) {
         arrs: [1, 2, 3],
         obj: {
             name: 'ejs',
-            afge: 'kk'
+            age: 'kk',
+            sex: '男'
         }
     })
 })
+
 router.get('/jade', function(req, res, next) {
   // console.log(req.cookies.cookie, 222) // 不加密的话，使用req.cookies获取cookie
   // console.log(req.signedCookies.cookie, 222) // 加密的话，使用signedCookies获取cookie

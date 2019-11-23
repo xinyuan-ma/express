@@ -1,0 +1,28 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    ".svn",
+    "node_modules/**/node_modules",
+    "front"
+  ],
+  "verbose": true,
+  "execMap": {
+    "js": "node --harmony"
+  },
+  "watch": [
+    "bin",
+    "public",
+    "routes",
+    "views",
+    "build",
+    "common",
+    "app.js",
+    "db.js",
+    "job.js"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "ejs js json"
+}
