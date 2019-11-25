@@ -6,6 +6,7 @@ var logger = require('morgan');
 var history = require('connect-history-api-fallback');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var fsRouter = require('./routes/fs');
 var vueRouter = require('./routes/vue');
 
 var app = express();
@@ -23,9 +24,23 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(cookieParser('secret')); // 对cookie进行加密
 app.use(cookieParser()); // 对cookie进行加密
 
+// var fs = require('fs')
+// fs.stat('db.js',  (error, stats) => {
+//   if (error) {
+//     console.log(error, 'error');
+//     return false;
+//   } else {
+//     console.log(stats)
+//     console.log(`文件：${stats.isFile()}`);
+//     // Console：文件：true
+//     console.log(`目录：${stats.isDirectory()}`);
+//     // Console：目录：false
+//   }
+// })
+
 // get请求的路由
 app.use('/user', usersRouter);
-
+app.use('/fs', fsRouter);
 // 设置vue项目静态web服务器hash模式（路径中有#）
 app.use('/vue', vueRouter);
 // 设置静态文件地址
