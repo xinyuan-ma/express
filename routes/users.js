@@ -8,8 +8,10 @@ router.get('/ejs', function (req, res, next) {
         arrs: [1, 2, 3],
         obj: {
             name: 'ejs',
-            age: 'kk',
-            sex: '男'
+            age: '18',
+            sex: '男',
+            back:'mei',
+            front: 'front'
         }
     })
 })
