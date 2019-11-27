@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs')
+var readline = require('readline'); // 逐行读取文件，保证读取的内容原样输出
 const tank = require('../db').tank
 
-// stat 检查一个目录是一个文件还是目录
+// stat 检查一个目录是一个文件还是目录,也可以用于判断目录或文件是否存在
 router.get('/stat', function(req, res, next) {
   fs.stat('routes/index.js',  (error, stats)=> { // 注意： 这里文件的路径，要从根目录开始写
     if (error) {
@@ -93,7 +94,7 @@ router.get('/readdir', function (req,res,next) {
 		}
 	})
 })
-// fs.readdir 重命名
+// fs.rename 重命名
 router.get('/rename', function (req,res,next) {
 	fs.rename('fs/yuan.js', 'yuanTest.js', (err) => {
 		if (err) {
@@ -104,7 +105,7 @@ router.get('/rename', function (req,res,next) {
 		}
 	})
 })
-// fs.readdir 剪切
+// fs.rename 剪切
 router.get('/renameCut', function (req,res,next) {
 	fs.rename('yuan.js', 'fs/yuan.js', (err) => {
 		if (err) {
@@ -115,6 +116,123 @@ router.get('/renameCut', function (req,res,next) {
 		}
 	})
 })
+// fs.rmdir 删除目录
+router.get('/rmdir', function (req,res,next) {
+	fs.rmdir('css', (err) => {
+		if (err) {
+			console.log(err)
+			res.send(err)
+		} else {
+			res.send('删除目录成功')
+		}
+	})
+})
+// fs.unlink 删除文件(包括删除图片等)
+router.get('/unlink', function (req,res,next) {
+	fs.unlink('fs/img.png', (err) => {
+		if (err) {
+			console.log(err)
+			res.send(err)
+		} else {
+			res.send('删除文件')
+		}
+	})
+})
+// 找到是否用upload目录，没有的话就创建
+router.get('/upload', function (req,res,next) {
+	fs.stat('upload/index.js', (err, data) => { // fs.stat可以用于检测目录或文件是否存在
+		if (err) {
+			console.log(err, 'err')
+			fs.writeFile('upload/index.js', '写入文件', (err1) => {
+				if (err1) {
+					console.log(err1)
+				} else {
+					res.send(`upload目录创建成功`)
+				}
+			})
+		} else {
+			res.send(`upload/index.js目录存在`)
+		}
+	})
+})
 
+// 找到public文件下所有的目录
+router.get('/public', function (req,res,next) {
+// 读取目录全部文件
+	fs.readdir('public', (err, files) => {
+		if(err) {
+			console.log(err);
+			return false;
+		} else {
+			// 判断是目录还是文件夹
+			console.log(files,files.length, 'files');
 
+			let filesArr = [];
+
+			(function getFile(i) {
+
+				// 循环结束
+				if(i == files.length) {
+					// 打印出所有目录
+					console.log("目录：");
+					console.log(filesArr);
+					return false;
+				}
+
+				// 判断目录是文件还是文件夹
+				fs.stat('public/' + files[i], (error, stats) => {
+
+					if(stats.isDirectory()) {
+						filesArr.push(files[i]);
+					}
+
+					// 递归调用
+					getFile(i+1);
+
+				})
+			})(0)
+		}
+	})
+})
+
+// 流读取文件，可以解决大文件时，优化系统性能，减少用户等待时间
+router.get('/fileReadStream', function (req, res, next) {
+	let readFileStream = fs.createReadStream('package.json')
+	let count = 0;
+	let str = ''
+	readFileStream.on('data', (chunk) => {
+		console.log(`${++count}`)
+		str +=chunk
+	})
+	readFileStream.on('end', () => {
+		res.send(str)
+	})
+})
+// 逐行读取文件
+router.get('/readline', function (req,res,next) {
+	var fRead = fs.createReadStream('package-lock.json');
+	var objReadline = readline.createInterface({
+		input:fRead
+	});
+	var arr = new Array();
+	objReadline.on('line',function (line) {
+		console.log(line, 'line')
+		arr.push(`<br>${line}`);
+		//console.log('line:'+ line);
+	});
+	objReadline.on('close',function () {
+		// console.log(arr);
+		res.send(arr.toString().replace(/,,/g, ',').replace(/{,/g, '{').replace(/},/g, '}'))
+	});
+})
+
+// 流写入文件
+router.get('/createWriteStream', function (req, res, next) {
+	let writeStream = fs.createWriteStream('fs/yuan.js')
+	writeStream.write('流写入的内容1221', 'utf8')
+	writeStream.end(); // 一定要end，否则接口会一直waiting
+	writeStream.on('finish', () => {
+		res.send('写入完成')
+	})
+})
 module.exports = router;
