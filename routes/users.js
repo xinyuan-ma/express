@@ -1,6 +1,36 @@
 var express = require('express');
 var router = express.Router();
+const Joi = require('joi');
+const schema = Joi.object().keys({
+    username: Joi.string().alphanum().min(3).max(30).required(),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
+    access_token: [Joi.string(), Joi.number()],
+    birthyear: Joi.number().integer().min(1900).max(2500),
+    email: Joi.string().email({ minDomainAtoms: 2 }),
+    name: Joi.string()
+})
+const schema1 = Joi.object().keys({
+    username: Joi.string(),
+    password: Joi.string()
+})
 
+router.post('/post',function(req, res, next) {
+    console.log(req.body)
+    const result = Joi.validate(req.body, schema1);
+    if (result.error) {
+        console.log(result.error)
+        return res.json({
+            code: 204,
+            msg: result.error.details[0].message
+        })
+    }
+    // console.log(result, 'result')
+    // console.log(req.body, 'req.body')
+    return res.json({
+        code: 1,
+        msg: 'msg'
+    })
+})
 router.get('/ejs', function (req, res, next) {
     res.render('index', {
         title: 'ejs练习',
