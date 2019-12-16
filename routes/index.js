@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   res.cookie('cookie', 'yuan', {signed: true})
   res.render('index', { title: 'yuan' });
   // res.send('Hello World!');
-  res.sendfile(__dirname + '/public/dist/index.html');
+  res.sendfile(__dirname + '/public/dist/cookie.html');
 });
 
 router.post('/', function(req, res, next) {

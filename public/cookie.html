@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,viewport-fit=cover">
+    <title>Privacy Statements</title>
+    <script>
+	;(function () {
+		var src = 'https://cdn.jsdelivr.net/npm/eruda'
+		// if (!/eruda=true/.test(window.location) && localStorage.getItem('active-eruda') != 'true') return
+		document.write('<scr' + 'ipt src="' + src + '"></scr' + 'ipt>')
+		document.write('<scr' + 'ipt>eruda.init();</scr' + 'ipt>')
+	})()
+    </script>
+    <style>
+    * {
+        margin: 0;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+
+    #box {
+        margin: 0 auto;
+    }
+
+    div {
+        text-align: center;
+        /*font-size: 60px;*/
+    }
+
+    input {
+        height: 30px;
+        width: 300px;
+        /*font-size: 40px;*/
+    }
+    </style>
+    <script src="nodeServer.js"></script>
+</head>
+<body>
+<div id="box">
+    <div>
+        <ul>
+            <li>
+                <div>
+                    <span>Key:</span>
+                    <input type="text" name="key" class="key"/>
+                </div>
+                <div>
+                    <span>Value:</span>
+                    <input type="text" name="value" class="value"/>
+                </div>
+                <div>
+                    <button style="height: 30px;margin: 30px 0" onclick="delCookie()">删除</button>
+                </div>
+            </li>
+        </ul>
+        <div>
+            Cookie:
+            <div id="cookieList"></div>
+        </div>
+        <button style="height: 30px;margin: 30px 0" onclick="addCookie1()">
+            添加Cookie11
+        </button>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+document.getElementById('cookieList').innerHTML = document.cookie
+
+function addCookie1 () {
+	let key = document.getElementsByClassName('key')[0].value
+	let value = document.getElementsByClassName('value')[0].value
+	var expires = new Date()
+	expires.setTime(expires.getTime() + 3 * 30 * 24 * 60 * 60 * 1000)
+	document.cookie = key + '=' + value + ';expires=' + expires.toGMTString()
+	document.getElementById('cookieList').innerHTML = document.cookie
+}
+
+function delCookie () {
+	// var keys = document.cookie.match(/[^ =;]+(?=\=)/g)
+	// if (keys) {
+	// 	for (var i = keys.length; i--;) {
+	// 		document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+	// 	}
+	// }
+	let cookies = document.cookie.split(';')
+	for (let i = 0; i < cookies.length; i++) {
+		let cookie = cookies[i]
+		let eqPos = cookie.indexOf('=')
+		let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+		document.cookie = name + '=;expires=' + new Date(0).toUTCString()
+	}
+	if (cookies.length > 0) {
+		for (let i = 0; i < cookies.length; i++) {
+			let cookie = cookies[i]
+			let eqPos = cookie.indexOf('=')
+			let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+			let domain = location.host.substr(location.host.indexOf('.'))
+			document.cookie = name + '=;expires=' + new Date(0).toUTCString()
+		}
+	}
+	document.getElementById('cookieList').innerHTML = document.cookie
+}
+
+// document.cookie = 'yummy_cookie=choco'
+// document.getElementById('box').innerText = document.cookie
+</script>
+</html>
