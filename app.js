@@ -10,6 +10,17 @@ var fsRouter = require('./routes/fs');
 var vueRouter = require('./routes/vue');
 
 var app = express();
+
+/**
+ *
+ * // 直接返回cookie,html页面,这段代码如果要生效，要注释下面的代码
+ app.get('/', function (req, res) {
+  // res.send('Hello World!');
+  res.sendfile('public/cookie.html');
+});
+ * */
+
+
 app.all('/', function (req, res, next) {
   console.log('Accessing the secret section ...')
   next() // pass control to the next handler
