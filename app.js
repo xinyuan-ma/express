@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var fsRouter = require('./routes/fs');
 var vueRouter = require('./routes/vue');
+var redisRouter = require('./routes/redis');
 
 var app = express();
 
@@ -49,13 +50,13 @@ app.use(cookieParser()); // 对cookie进行加密
 //   }
 // })
 
-// get请求的路由
 app.use('/user', usersRouter);
 app.use('/fs', fsRouter);
-// 设置vue项目静态web服务器hash模式（路径中有#）
 app.use('/vue', vueRouter);
+app.use('/redis', redisRouter);
+
 // 设置静态文件地址
-app.use(history()); // vue项目为history模式，配置静态服务器
+app.use(history()); // vue项目为history模式，配置静态服务器,设置vue项目静态web服务器hash模式（路径中有#）
 app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(path.join(__dirname, 'public/dist'))); // dist文件是vue项目打包出来的文件
 // app.use(express.static(path.join(__dirname, 'public/vue')));
