@@ -19,15 +19,6 @@ router.get('/stat', function(req, res, next) {
 
 // fs.mkdir 创建目录
 router.get('/mkdir', function (req,res,next) {
-    // fs.mkdir('css', err => {
-    //   if (err) {
-    //     console.log(err)
-    //     return false
-    //   } else {
-    //     console.log('创建目录成功')
-    //     res.send('创建目录成功')
-    //   }
-    // })
     fs.mkdir('css', err => {
       if (err) {
         console.log(err)
